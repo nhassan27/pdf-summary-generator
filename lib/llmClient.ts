@@ -16,15 +16,15 @@ export async function generateSummary(
     // Different prompts based on summary type
     const systemPrompt =
       summaryType === 'executive'
-        ? 'You are a bullet point generator. Your ONLY job is to output bullet points. NEVER write "Here is", "Summary", "Executive Summary", "Case Overview", or ANY introductory sentence. Your first character must be a bullet point (•) or dash (-). If you write ANY text before the first bullet point, you have failed.'
+        ? 'You are a comprehensive summary generator. Your job is to extract ALL important facts, findings, decisions, dates, names, numbers, and key information from the document. Output ONLY bullet points. NEVER write "Here is", "Summary", "Executive Summary", "Case Overview", or ANY introductory sentence. Your first character must be a bullet point (•) or dash (-). Ensure NO important fact is left behind - include all critical information even if it means more bullet points.'
         : 'You are an expert at creating comprehensive, detailed summaries. Create thorough summaries that cover all important aspects of the document. Use clear language and organize information with bullet points and sections. Include context, key findings, and important details.'
 
     const userPrompt =
       summaryType === 'executive'
-        ? `List 3-5 key points. First character MUST be • or -. No introduction. No labels. No "Summary:". Start NOW with bullet points:\n\n${truncatedText}`
+        ? `Extract ALL important information from this document. Include every critical fact, finding, decision, date, name, number, and key detail. Do NOT leave any important information out. First character MUST be • or -. No introduction. No labels. No "Summary:". Start NOW with comprehensive bullet points covering all important facts:\n\n${truncatedText}`
         : `Please create a detailed, comprehensive summary of this document. Include all important information, key findings, and relevant details. Organize the information clearly:\n\n${truncatedText}`
 
-    const maxTokens = summaryType === 'executive' ? 500 : 1500
+    const maxTokens = summaryType === 'executive' ? 1000 : 1500
 
     const completion = await groq.chat.completions.create({
       messages: [
